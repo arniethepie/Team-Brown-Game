@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://Character/Playermovement.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Project Files/Character/Playermodel.tscn" type="PackedScene" id=1]
 
 [node name="World" type="Node2D"]
 position = Vector2( 68, 588 )
