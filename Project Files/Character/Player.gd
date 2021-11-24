@@ -51,3 +51,12 @@ func animationmanager():
 		# stationary sprite
 		stationary = true
 """
+
+
+func _on_level1_body_entered(body):
+	get_tree().change_scene("res://Project Files/Worlds/World 1/Level 2/World 1 Level 2.tscn")
+
+
+
+func _on_level2_body_entered(body):
+		get_tree().change_scene("res://Project Files/Worlds/End World/Temp End Level.tscn")
