@@ -27,7 +27,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Atlassian"
-run/main_scene="res://World.tscn"
+run/main_scene="res://Project Files/Worlds/Title Screen/MainScreen.tscn"
 config/icon="res://icon.png"
 
 [gdnative]
