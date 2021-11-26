@@ -3,8 +3,9 @@
 [ext_resource path="res://Project Files/Character/Player.gd" type="Script" id=1]
 [ext_resource path="res://Project Files/Character/tempsoldier.png" type="Texture" id=2]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 20, 38.25 )
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 17.0
+height = 46.0
 
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( -2, 0 )
@@ -17,8 +18,12 @@ scale = Vector2( 0.0905172, 0.0905172 )
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 1, -40.25 )
+position = Vector2( 3, -39 )
 shape = SubResource( 1 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
+
+[node name="InvulnTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true

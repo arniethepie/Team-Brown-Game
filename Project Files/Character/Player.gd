@@ -1,39 +1,41 @@
 extends defaultmovement
-var direction = Vector2.ZERO
-# direction and movement function of player
+
+
+export var speed = 400
+const up_dir = Vector2.UP
+export var max_jumps = 2
+export var jumpstr = 1200
+export var gravity = 3000
+
+var _currentjumps = 0
+var _velocity = Vector2.ZERO
+
 func _physics_process(delta):
-	# direction vector
-	var directionvector = directionvector()
-	charaspeed = velocityvector(charaspeed, directionvector, speed)
-	# speed calculation
-	charaspeed = move_and_slide(charaspeed, Vector2.UP)
-
+	# left and right movement
+	var horizontaldir = (Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"))
+	_velocity.x = horizontaldir * speed
+	_velocity.y += gravity * delta
+	_velocity = move_and_slide(_velocity, up_dir)
 	
-
-func directionvector() -> Vector2:
-	return Vector2(Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"),
-	-1.0 if Input.is_action_just_pressed("jump") and is_on_floor() else 1.0)
+	# key character information for functions and animations
+	var is_falling = _velocity.y >0 and not is_on_floor()
+	var is_jumping = Input.is_action_just_pressed("jump") and is_on_floor()
+	var is_jump_cancelled = Input.is_action_just_released("jump") and _velocity.y < 0
+	var is_idle = is_on_floor() and is_zero_approx(_velocity.x)
+	var is_moving = is_on_floor() and not is_zero_approx(_velocity.x)
+	
+	if is_jumping:
+		_velocity.y = -jumpstr
+	elif is_jump_cancelled:
+		_velocity.y = 0
+		
+		# add animations
+		
+	# if jumping: set animation sprite to jumping
+	# if moving: set animation sprite to running
 	
 	
 	
-	
-	
-	
-	
-# function to calculate our velocity at any moment, makes physics process simpler
-func velocityvector(linearvelocity: Vector2, directionvector: Vector2, speed: Vector2) -> Vector2: 
-	var finalvelocity = linearvelocity
-	finalvelocity.x = speed.x * directionvector.x
-	# getting delta value without passing it in
-	finalvelocity.y += gravityaccel * get_physics_process_delta_time()
-	if directionvector.y == -1.0:
-		finalvelocity.y = speed.y * directionvector.y
-	
-	if finalvelocity.y > speed.y:
-		finalvelocity.y = speed.y
-	return finalvelocity
-
-
 
 
 """
