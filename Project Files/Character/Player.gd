@@ -1,4 +1,5 @@
 extends defaultmovement
+const TYPE = 'player'
 var direction = Vector2.ZERO
 # direction and movement function of player
 func _physics_process(delta):
