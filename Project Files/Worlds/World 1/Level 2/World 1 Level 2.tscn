@@ -92,6 +92,9 @@ tile_data = PoolIntArray( -6422646, 1, 0, -6422645, 1, 0, -6422644, 1, 0, -64226
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 
+[node name="player" parent="Player" index="0"]
+position = Vector2( -37, -37 )
+
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
@@ -146,5 +149,6 @@ position = Vector2( 2024, 540 )
 position = Vector2( 1993, 540 )
 
 [connection signal="body_entered" from="Area2D" to="Player/player" method="_on_level2_body_entered"]
+[connection signal="body_entered" from="Area2D" to="Player/player" method="_on_Area2D_body_entered"]
 
 [editable path="Player"]

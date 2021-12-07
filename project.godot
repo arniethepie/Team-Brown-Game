@@ -30,6 +30,10 @@ config/name="Atlassian"
 run/main_scene="res://Project Files/Worlds/Title Screen/MainScreen.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Eventbus="*res://Project Files/Character/Eventbus.gd"
+
 [gdnative]
 
 singletons=[ "res://addons/godot-git-plugin/git_api.gdnlib" ]

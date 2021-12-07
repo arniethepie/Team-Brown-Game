@@ -10,15 +10,21 @@ export var gravity = 3000
 var _currentjumps = 0
 var _velocity = Vector2.ZERO
 
+export (float) var max_health = 50
+onready var health = max_health setget _set_health
+onready var invulnerability_timer = $InvulnTimer
 
 # obstacles code
 const TYPE = "player"
-export var hp = 5
 
+func _ready():
+	Eventbus.connect("playerspikedamage",self,"_on_playerspikedamage")
+	Eventbus.connect("coinpickup",self,"_on_coinpickup")
 # movement
 func _physics_process(delta):
 	# left and right movement
 	var horizontaldir = (Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"))
+	speed = 400
 	_velocity.x = horizontaldir * speed
 	_velocity.y += gravity * delta
 	_velocity = move_and_slide(_velocity, up_dir)
@@ -78,11 +84,47 @@ func _process(_delta):
 
 
 
-
+# level changing
 func _on_level1_body_entered(body):
 	get_tree().change_scene("res://Project Files/Worlds/World 1/Level 2/World 1 Level 2.tscn")
 
 
 
-func _on_level2_body_entered(body):
-		get_tree().change_scene("res://Project Files/Worlds/End World/Temp End Level.tscn")
+
+func _on_Area2D_body_entered(body):
+	get_tree().change_scene("res://Project Files/Worlds/End World/Temp End Level.tscn")
+
+
+
+
+signal health_updated(health)
+signal killed()
+func kill():
+	get_tree().change_scene("res://Project Files/Worlds/End World/Lose End Level.tscn")
+	
+func damage(amount):
+	if invulnerability_timer.is_stopped():
+		invulnerability_timer.start()
+		_set_health(health - amount)
+	print("HP: %s" % health)
+	
+
+# update health function
+func _set_health(value):
+	var prev_health = health
+	health = clamp(value, 0, max_health)
+	if health!= prev_health:
+		emit_signal("health_updated", health)
+		if health == 0:
+			kill()
+			emit_signal("killed")
+
+# 5 damage taken per spike
+func _on_playerspikedamage():
+	damage(5)
+	
+onready var coins = 0 
+
+func _on_coinpickup():
+	coins+=1
+	print("Coins %s " % coins)

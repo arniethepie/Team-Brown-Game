@@ -117,49 +117,51 @@ position = Vector2( 66, -140 )
 position = Vector2( 1466, 545 )
 
 [node name="Coin3" parent="." instance=ExtResource( 3 )]
-position = Vector2( 2012, -253 )
+position = Vector2( 1980, -263 )
 
 [node name="Coin5" parent="." instance=ExtResource( 3 )]
 position = Vector2( 700, -563 )
 
 [node name="Coin4" parent="." instance=ExtResource( 3 )]
-position = Vector2( 2106, -253 )
+position = Vector2( 2162, -263 )
 
 [node name="Coin7" parent="." instance=ExtResource( 3 )]
 position = Vector2( 3236, 542 )
 
-[node name="Spike2" parent="." instance=ExtResource( 4 )]
-position = Vector2( 1023, 499 )
+[node name="Node" type="Node" parent="."]
 
-[node name="Spike" parent="." instance=ExtResource( 4 )]
-position = Vector2( 742, 539 )
+[node name="Spike2" parent="Node" instance=ExtResource( 4 )]
+position = Vector2( 905, -55 )
 
-[node name="Spike10" parent="." instance=ExtResource( 4 )]
-position = Vector2( 778, -301 )
+[node name="Spike" parent="Node" instance=ExtResource( 4 )]
+position = Vector2( 624, -15 )
 
-[node name="Spike11" parent="." instance=ExtResource( 4 )]
-position = Vector2( 1895, -265 )
+[node name="Spike10" parent="Node" instance=ExtResource( 4 )]
+position = Vector2( 660, -855 )
 
-[node name="Spike3" parent="." instance=ExtResource( 4 )]
-position = Vector2( 1501, 539 )
+[node name="Spike11" parent="Node" instance=ExtResource( 4 )]
+position = Vector2( 1777, -819 )
 
-[node name="Spike4" parent="." instance=ExtResource( 4 )]
-position = Vector2( 420, -462 )
+[node name="Spike3" parent="Node" instance=ExtResource( 4 )]
+position = Vector2( 1383, -15 )
 
-[node name="Spike5" parent="." instance=ExtResource( 4 )]
-position = Vector2( 2260, 338 )
+[node name="Spike4" parent="Node" instance=ExtResource( 4 )]
+position = Vector2( 302, -1016 )
 
-[node name="Spike6" parent="." instance=ExtResource( 4 )]
-position = Vector2( 2417, 336 )
+[node name="Spike5" parent="Node" instance=ExtResource( 4 )]
+position = Vector2( 2142, -216 )
 
-[node name="Spike7" parent="." instance=ExtResource( 4 )]
-position = Vector2( 2634, 258 )
+[node name="Spike6" parent="Node" instance=ExtResource( 4 )]
+position = Vector2( 2299, -218 )
 
-[node name="Spike8" parent="." instance=ExtResource( 4 )]
-position = Vector2( 2784, 263 )
+[node name="Spike7" parent="Node" instance=ExtResource( 4 )]
+position = Vector2( 2516, -296 )
 
-[node name="Spike9" parent="." instance=ExtResource( 4 )]
-position = Vector2( 1583, -426 )
+[node name="Spike8" parent="Node" instance=ExtResource( 4 )]
+position = Vector2( 2666, -291 )
+
+[node name="Spike9" parent="Node" instance=ExtResource( 4 )]
+position = Vector2( 1465, -980 )
 
 [connection signal="body_entered" from="Area2D" to="Player/player" method="_on_level1_body_entered"]
 

@@ -1368,6 +1368,6 @@ anims/move2 = SubResource( 10 )
 anims/RESET = SubResource( 11 )
 anims/run = SubResource( 12 )
 
-[node name="InvulnTimer" type="Timer" parent="."]
-wait_time = 0.5
+[node name="InvulnTimer" type="Timer" parent="player"]
+wait_time = 0.8
 one_shot = true
