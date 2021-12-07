@@ -19,7 +19,6 @@ __meta__ = {
 }
 
 [node name="AnimatedSprite" parent="." instance=ExtResource( 5 )]
-frame = 9
 
 [node name="Title" parent="." instance=ExtResource( 2 )]
 anchor_left = 0.5

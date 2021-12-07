@@ -1,6 +1,6 @@
 extends defaultmovement
-
-
+var direction = Vector2.ZERO
+var scale_flag = true
 export var speed = 400
 const up_dir = Vector2.UP
 export var max_jumps = 2
@@ -10,6 +10,12 @@ export var gravity = 3000
 var _currentjumps = 0
 var _velocity = Vector2.ZERO
 
+
+# obstacles code
+const TYPE = "player"
+export var hp = 5
+
+# movement
 func _physics_process(delta):
 	# left and right movement
 	var horizontaldir = (Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"))
@@ -29,30 +35,48 @@ func _physics_process(delta):
 	elif is_jump_cancelled:
 		_velocity.y = 0
 		
-		# add animations
-		
-	# if jumping: set animation sprite to jumping
-	# if moving: set animation sprite to running
+
+# animations
+onready var _animation_move_player = $move
+onready var _animation_move2_player = $move2
+onready var _animation_idle_player = $idle
+onready var _animation_jump_player = $jump
+onready var _animation_run_player = $run
+
+func _process(_delta):
 	
-	
-	
-
-
-"""
-# skeleton of animation manager flags, will implement it in future
-func animationmanager():
-	if Input.is_action_pressed("ui_left"):
-		runningleft = true
-
-	elif Input.is_action_pressed("ui_right"):
-		runningright = true
-
-	elif Input.is_action_just_released("ui_left") or Input.is_action_just_released("ui_right"):
-		running = false
+	var axisX = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+	# move right
+	if axisX > 0:
+		# _animation_idle_player.stop()			#stop idle animation
+		if is_on_floor():
+			_animation_move_player.play("move")		#play move animation
+		if scale_flag == false:		# scale the character if the direction of motion changes
+			scale_flag = true
+			get_node("Knight").apply_scale(Vector2(-1, 1))		#scale the character
+	#move left
+	elif axisX < 0:
+		# _animation_idle_player.stop()			#stop idle animation
+		if is_on_floor():
+			_animation_move_player.play("move")		#play move animation
+		if scale_flag == true:		# scale the character if the direction of motion changes
+			scale_flag = false
+			get_node("Knight").apply_scale(Vector2(-1, 1))		#scale the character
+			
 	else:
-		# stationary sprite
-		stationary = true
-"""
+		_animation_move_player.stop()	#stop move animation
+		_animation_idle_player.play("idle")		#play idle animation
+		
+	if Input.is_action_just_pressed("jump"):
+		# _animation_idle_player.stop()
+		_animation_move_player.stop()	#stop move animation
+		_animation_jump_player.play("jump")		#play jump animation
+		
+
+
+
+
+
 
 
 func _on_level1_body_entered(body):
