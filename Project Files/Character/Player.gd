@@ -20,6 +20,7 @@ const TYPE = "player"
 func _ready():
 	Eventbus.connect("playerspikedamage",self,"_on_playerspikedamage")
 	Eventbus.connect("coinpickup",self,"_on_coinpickup")
+	Eventbus.connect("playerswingdamage", self, "_on_playerswingdamage")
 # movement
 func _physics_process(delta):
 	# left and right movement
@@ -122,7 +123,11 @@ func _set_health(value):
 # 5 damage taken per spike
 func _on_playerspikedamage():
 	damage(5)
+
+func _on_playerswingdamage():
+	damage(10)
 	
+
 onready var coins = 0 
 
 func _on_coinpickup():
