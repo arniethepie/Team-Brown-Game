@@ -1,0 +1,54 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Project Files/World Objects/Swing Trap/SwingTrap.gd" type="Script" id=1]
+[ext_resource path="res://Project Files/World Objects/Swing Trap/clipart314759.png" type="Texture" id=2]
+
+[sub_resource type="Animation" id=1]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "Swing"
+length = 1.5
+loop = true
+tracks/0/type = "bezier"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( -78.7, -0.25, 0, 0.25, 0, 78.8, -0.25, 0, 0.25, 0, -78.7, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.75, 1.5 )
+}
+
+[node name="SwingTrap" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 1, 76 )
+rotation = -3.14159
+scale = Vector2( 0.299184, 0.299184 )
+texture = ExtResource( 2 )
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+position = Vector2( 2, 7 )
+scale = Vector2( 0.901483, 0.901483 )
+polygon = PoolVector2Array( -8, 72, -22, 74, -40, 86, -47, 96, -54, 110, -54, 116, -50, 135, -39, 147, -27, 158, -22, 160, -18, 158, -18, 156, 17, 155, 18, 158, 21, 159, 24, 158, 28, 156, 43, 146, 54, 115, 53, 108, 47, 96, 43, 89, 39, 84, 27, 78, 18, 75, 15, 75, 8, 72, -6, 72 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 1 )
+anims/Swing = SubResource( 2 )
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

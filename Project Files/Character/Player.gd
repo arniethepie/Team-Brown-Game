@@ -1,62 +1,135 @@
 extends defaultmovement
 var direction = Vector2.ZERO
-# direction and movement function of player
+var scale_flag = true
+export var speed = 400
+const up_dir = Vector2.UP
+export var max_jumps = 2
+export var jumpstr = 1200
+export var gravity = 3000
+
+var _currentjumps = 0
+var _velocity = Vector2.ZERO
+
+export (float) var max_health = 50
+onready var health = max_health setget _set_health
+onready var invulnerability_timer = $InvulnTimer
+
+# obstacles code
+const TYPE = "player"
+
+func _ready():
+	Eventbus.connect("playerspikedamage",self,"_on_playerspikedamage")
+	Eventbus.connect("coinpickup",self,"_on_coinpickup")
+	Eventbus.connect("playerswingdamage", self, "_on_playerswingdamage")
+# movement
 func _physics_process(delta):
-	# direction vector
-	var directionvector = directionvector()
-	charaspeed = velocityvector(charaspeed, directionvector, speed)
-	# speed calculation
-	charaspeed = move_and_slide(charaspeed, Vector2.UP)
+	# left and right movement
+	var horizontaldir = (Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"))
+	speed = 400
+	_velocity.x = horizontaldir * speed
+	_velocity.y += gravity * delta
+	_velocity = move_and_slide(_velocity, up_dir)
+	
+	# key character information for functions and animations
+	var is_falling = _velocity.y >0 and not is_on_floor()
+	var is_jumping = Input.is_action_just_pressed("jump") and is_on_floor()
+	var is_jump_cancelled = Input.is_action_just_released("jump") and _velocity.y < 0
+	var is_idle = is_on_floor() and is_zero_approx(_velocity.x)
+	var is_moving = is_on_floor() and not is_zero_approx(_velocity.x)
+	
+	if is_jumping:
+		_velocity.y = -jumpstr
+	elif is_jump_cancelled:
+		_velocity.y = 0
+		
 
-	
+# animations
+onready var _animation_move_player = $move
+onready var _animation_move2_player = $move2
+onready var _animation_idle_player = $idle
+onready var _animation_jump_player = $jump
+onready var _animation_run_player = $run
 
-func directionvector() -> Vector2:
-	return Vector2(Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"),
-	-1.0 if Input.is_action_just_pressed("jump") and is_on_floor() else 1.0)
+func _process(_delta):
 	
-	
-	
-	
-	
-	
-	
-# function to calculate our velocity at any moment, makes physics process simpler
-func velocityvector(linearvelocity: Vector2, directionvector: Vector2, speed: Vector2) -> Vector2: 
-	var finalvelocity = linearvelocity
-	finalvelocity.x = speed.x * directionvector.x
-	# getting delta value without passing it in
-	finalvelocity.y += gravityaccel * get_physics_process_delta_time()
-	if directionvector.y == -1.0:
-		finalvelocity.y = speed.y * directionvector.y
-	
-	if finalvelocity.y > speed.y:
-		finalvelocity.y = speed.y
-	return finalvelocity
-
-
-
-
-"""
-# skeleton of animation manager flags, will implement it in future
-func animationmanager():
-	if Input.is_action_pressed("ui_left"):
-		runningleft = true
-
-	elif Input.is_action_pressed("ui_right"):
-		runningright = true
-
-	elif Input.is_action_just_released("ui_left") or Input.is_action_just_released("ui_right"):
-		running = false
+	var axisX = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+	# move right
+	if axisX > 0:
+		# _animation_idle_player.stop()			#stop idle animation
+		if is_on_floor():
+			_animation_move_player.play("move")		#play move animation
+		if scale_flag == false:		# scale the character if the direction of motion changes
+			scale_flag = true
+			get_node("Knight").apply_scale(Vector2(-1, 1))		#scale the character
+	#move left
+	elif axisX < 0:
+		# _animation_idle_player.stop()			#stop idle animation
+		if is_on_floor():
+			_animation_move_player.play("move")		#play move animation
+		if scale_flag == true:		# scale the character if the direction of motion changes
+			scale_flag = false
+			get_node("Knight").apply_scale(Vector2(-1, 1))		#scale the character
+			
 	else:
-		# stationary sprite
-		stationary = true
-"""
+		_animation_move_player.stop()	#stop move animation
+		_animation_idle_player.play("idle")		#play idle animation
+		
+	if Input.is_action_just_pressed("jump"):
+		# _animation_idle_player.stop()
+		_animation_move_player.stop()	#stop move animation
+		_animation_jump_player.play("jump")		#play jump animation
+		
 
 
+
+
+
+
+# level changing
 func _on_level1_body_entered(body):
 	get_tree().change_scene("res://Project Files/Worlds/World 1/Level 2/World 1 Level 2.tscn")
 
 
 
-func _on_level2_body_entered(body):
-		get_tree().change_scene("res://Project Files/Worlds/End World/Temp End Level.tscn")
+
+func _on_Area2D_body_entered(body):
+	get_tree().change_scene("res://Project Files/Worlds/End World/Temp End Level.tscn")
+
+
+
+
+signal health_updated(health)
+signal killed()
+func kill():
+	get_tree().change_scene("res://Project Files/Worlds/End World/Lose End Level.tscn")
+	
+func damage(amount):
+	if invulnerability_timer.is_stopped():
+		invulnerability_timer.start()
+		_set_health(health - amount)
+	print("HP: %s" % health)
+	
+
+# update health function
+func _set_health(value):
+	var prev_health = health
+	health = clamp(value, 0, max_health)
+	if health!= prev_health:
+		emit_signal("health_updated", health)
+		if health == 0:
+			kill()
+			emit_signal("killed")
+
+# 5 damage taken per spike
+func _on_playerspikedamage():
+	damage(5)
+
+func _on_playerswingdamage():
+	damage(10)
+	
+
+onready var coins = 0 
+
+func _on_coinpickup():
+	coins+=1
+	print("Coins %s " % coins)
