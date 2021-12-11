@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Project Files/Character/Player.gd" type="Script" id=1]
 [ext_resource path="res://Project Files/Character/Pics/1_right arm_.png" type="Texture" id=2]
@@ -10,9 +10,8 @@
 [ext_resource path="res://Project Files/Character/Pics/1_head_.png" type="Texture" id=8]
 [ext_resource path="res://Project Files/Character/Pics/1_left lag_.png" type="Texture" id=9]
 
-[sub_resource type="CapsuleShape2D" id=1]
-radius = 15.9996
-height = 44.0007
+[sub_resource type="RectangleShape2D" id=14]
+extents = Vector2( 16, 38.875 )
 
 [sub_resource type="Animation" id=2]
 length = 0.001
@@ -1255,6 +1254,9 @@ tracks/11/keys = {
 "values": [ 37.8418, 37.8418, 37.8418 ]
 }
 
+[sub_resource type="CircleShape2D" id=13]
+radius = 107.529
+
 [node name="Player" type="Node"]
 
 [node name="player" type="KinematicBody2D" parent="."]
@@ -1343,9 +1345,9 @@ scale = Vector2( 12.5, 12.5 )
 current = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
-position = Vector2( 24.9945, 112.5 )
+position = Vector2( 50, 98.4375 )
 scale = Vector2( 12.5, 12.5 )
-shape = SubResource( 1 )
+shape = SubResource( 14 )
 
 [node name="move" type="AnimationPlayer" parent="player"]
 anims/RESET = SubResource( 2 )
@@ -1371,3 +1373,16 @@ anims/run = SubResource( 12 )
 [node name="InvulnTimer" type="Timer" parent="player"]
 wait_time = 0.8
 one_shot = true
+
+[node name="RopeGrab" type="Area2D" parent="player"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player/RopeGrab" groups=["ropehitbox"]]
+position = Vector2( 112.5, 150 )
+shape = SubResource( 13 )
+
+[node name="RopeTimer" type="Timer" parent="player/RopeGrab"]
+wait_time = 0.01
+one_shot = true
+
+[connection signal="area_entered" from="player/RopeGrab" to="player" method="_on_RopeGrab_area_entered"]
+[connection signal="timeout" from="player/RopeGrab/RopeTimer" to="player" method="_on_RopeTimer_timeout"]

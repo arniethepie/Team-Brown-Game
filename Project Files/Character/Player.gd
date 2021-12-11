@@ -16,11 +16,16 @@ onready var invulnerability_timer = $InvulnTimer
 
 # obstacles code
 const TYPE = "player"
-
+# some rope code
+var can_grab = true
+var rope_grabbed = false
+var rope_part = null
+var touchingrope = false
 func _ready():
 	Eventbus.connect("playerspikedamage",self,"_on_playerspikedamage")
 	Eventbus.connect("coinpickup",self,"_on_coinpickup")
 	Eventbus.connect("playerswingdamage", self, "_on_playerswingdamage")
+	Eventbus.connect("touchingrope", self, "_on_touching_rope")
 # movement
 func _physics_process(delta):
 	# left and right movement
@@ -36,12 +41,44 @@ func _physics_process(delta):
 	var is_jump_cancelled = Input.is_action_just_released("jump") and _velocity.y < 0
 	var is_idle = is_on_floor() and is_zero_approx(_velocity.x)
 	var is_moving = is_on_floor() and not is_zero_approx(_velocity.x)
-	
+	var rope_release = false
 	if is_jumping:
 		_velocity.y = -jumpstr
 	elif is_jump_cancelled:
 		_velocity.y = 0
-		
+
+	if rope_grabbed:
+		global_position = rope_part.global_position
+		if Input.is_action_just_pressed("jump"):
+			_velocity.y = -jumpstr/1.5
+			rope_grabbed = false
+			rope_part = null
+			global_position = global_position
+			$RopeGrab/RopeTimer.start()
+			rope_release = true
+			touchingrope = false
+		else:
+			return
+	
+# grabbing rope function
+
+# touching rope
+func _on_touching_rope():
+	touchingrope = true
+# if the rope is grabbed by the player and all the conditions are right
+func _on_RopeGrab_area_entered(area):
+	if can_grab and touchingrope:
+		rope_grabbed = true
+		rope_part = area
+		can_grab = false
+		global_position = global_position
+# allows the rope to be regrabbed
+func _on_RopeTimer_timeout():
+	can_grab = true
+
+
+
+
 
 # animations
 onready var _animation_move_player = $move
@@ -133,3 +170,4 @@ onready var coins = 0
 func _on_coinpickup():
 	coins+=1
 	print("Coins %s " % coins)
+
