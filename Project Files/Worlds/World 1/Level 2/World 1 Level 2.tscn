@@ -148,7 +148,7 @@ position = Vector2( 2024, 540 )
 [node name="Spike8" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1993, 540 )
 
-[connection signal="body_entered" from="Area2D" to="Player/player" method="_on_level2_body_entered"]
 [connection signal="body_entered" from="Area2D" to="Player/player" method="_on_Area2D_body_entered"]
+[connection signal="body_entered" from="Area2D" to="Player/player" method="_on_level2_body_entered"]
 
 [editable path="Player"]

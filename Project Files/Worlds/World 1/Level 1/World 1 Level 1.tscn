@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Project Files/Temporary Assets/Kennyassets/Tilesheet/tilesheet_complete.png" type="Texture" id=1]
 [ext_resource path="res://Project Files/Character/Playermodel.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Project Files/World Objects/Spike/Spike.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Project Files/World Objects/Swing Trap/SwingTrap.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Project Files/World Objects/SpikeTrap/SpikeTrap.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Project Files/World Objects/DoorandPressurePlate/DoorandPressureP.tscn" type="PackedScene" id=7]
 
 [sub_resource type="ConvexPolygonShape2D" id=8]
 points = PoolVector2Array( 0, 0, 40, 0, 40, 40, 0, 40 )
@@ -169,7 +170,7 @@ position = Vector2( 1465, -980 )
 position = Vector2( 995, 80 )
 
 [node name="SwingTrap" parent="." instance=ExtResource( 5 )]
-position = Vector2( 435, 355 )
+position = Vector2( 548, 4 )
 
 [node name="SwingTrap2" parent="." instance=ExtResource( 5 )]
 position = Vector2( 211, -678 )
@@ -204,6 +205,17 @@ position = Vector2( 2023, 6 )
 [node name="SpikeTrap5" parent="." instance=ExtResource( 6 )]
 position = Vector2( 3107, -232 )
 
+[node name="DoorandPressure" parent="." instance=ExtResource( 7 )]
+position = Vector2( 371, 569 )
+
+[node name="Door" parent="DoorandPressure" index="0"]
+position = Vector2( 129, -107.667 )
+scale = Vector2( 0.4, 0.4 )
+
+[node name="Plate" parent="DoorandPressure" index="1"]
+position = Vector2( -123, -19 )
+
 [connection signal="body_entered" from="Area2D" to="Player/player" method="_on_level1_body_entered"]
 
 [editable path="Player"]
+[editable path="DoorandPressure"]
