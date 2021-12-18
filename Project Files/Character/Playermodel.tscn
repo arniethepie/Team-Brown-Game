@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://Project Files/Character/Player.gd" type="Script" id=1]
 [ext_resource path="res://Project Files/Character/Pics/1_right arm_.png" type="Texture" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Project Files/Character/Pics/1_right lag_.png" type="Texture" id=7]
 [ext_resource path="res://Project Files/Character/Pics/1_head_.png" type="Texture" id=8]
 [ext_resource path="res://Project Files/Character/Pics/1_left lag_.png" type="Texture" id=9]
+[ext_resource path="res://Project Files/UserInterface/CountupTimer/Countup.tscn" type="PackedScene" id=10]
 
 [sub_resource type="RectangleShape2D" id=14]
 extents = Vector2( 16, 38.875 )
@@ -1383,6 +1384,10 @@ shape = SubResource( 13 )
 [node name="RopeTimer" type="Timer" parent="player/RopeGrab"]
 wait_time = 0.01
 one_shot = true
+
+[node name="Timer" parent="player" instance=ExtResource( 10 )]
+position = Vector2( -6287.5, -3112.5 )
+scale = Vector2( 12.5, 12.5 )
 
 [connection signal="area_entered" from="player/RopeGrab" to="player" method="_on_RopeGrab_area_entered"]
 [connection signal="timeout" from="player/RopeGrab/RopeTimer" to="player" method="_on_RopeTimer_timeout"]

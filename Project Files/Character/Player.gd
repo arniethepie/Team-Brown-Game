@@ -7,12 +7,13 @@ export var max_jumps = 2
 export var jumpstr = 1200
 export var gravity = 3000
 
-var _currentjumps = 0
-var _velocity = Vector2.ZERO
-
 export (float) var max_health = 50
+
 onready var health = max_health setget _set_health
 onready var invulnerability_timer = $InvulnTimer
+
+var _currentjumps = 0
+var _velocity = Vector2.ZERO
 
 # obstacles code
 const TYPE = "player"
@@ -22,10 +23,16 @@ var rope_grabbed = false
 var rope_part = null
 var touchingrope = false
 func _ready():
+	var file = File.new()
 	Eventbus.connect("playerspikedamage",self,"_on_playerspikedamage")
 	Eventbus.connect("coinpickup",self,"_on_coinpickup")
 	Eventbus.connect("playerswingdamage", self, "_on_playerswingdamage")
 	Eventbus.connect("touchingrope", self, "_on_touching_rope")
+	file.open("res://save_hp.txt", File.READ_WRITE)
+	health = int(file.get_as_text())
+	file.close()
+
+	
 # movement
 func _physics_process(delta):
 	# left and right movement
@@ -149,9 +156,14 @@ func damage(amount):
 
 # update health function
 func _set_health(value):
+	var file = File.new()
+	file.open("res://save_hp.txt", File.READ_WRITE)
+	health = int(file.get_as_text())
 	var prev_health = health
 	health = clamp(value, 0, max_health)
 	if health!= prev_health:
+		file.store_string(str(health))
+		file.close()
 		emit_signal("health_updated", health)
 		if health == 0:
 			kill()
@@ -168,6 +180,11 @@ func _on_playerswingdamage():
 onready var coins = 0 
 
 func _on_coinpickup():
+	var file = File.new()
+	file.open("res://save_coins.txt", File.READ_WRITE)
+	coins = int(file.get_as_text())
 	coins+=1
+	file.store_string(str(coins))
+	file.close()
 	print("Coins %s " % coins)
 
