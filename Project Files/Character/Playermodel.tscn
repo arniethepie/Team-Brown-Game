@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Project Files/Character/Player.gd" type="Script" id=1]
 [ext_resource path="res://Project Files/Character/Pics/1_right arm_.png" type="Texture" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://Project Files/Character/Pics/1_head_.png" type="Texture" id=8]
 [ext_resource path="res://Project Files/Character/Pics/1_left lag_.png" type="Texture" id=9]
 [ext_resource path="res://Project Files/UserInterface/CountupTimer/Countup.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Project Files/UserInterface/HPBar/HPBar.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Project Files/UserInterface/CoinCounter/CoinCounter.tscn" type="PackedScene" id=12]
 
 [sub_resource type="RectangleShape2D" id=14]
 extents = Vector2( 16, 38.875 )
@@ -1346,7 +1348,7 @@ scale = Vector2( 12.5, 12.5 )
 current = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
-position = Vector2( 50, 98.4375 )
+position = Vector2( 37.5, 75 )
 scale = Vector2( 12.5, 12.5 )
 shape = SubResource( 14 )
 
@@ -1386,8 +1388,25 @@ wait_time = 0.01
 one_shot = true
 
 [node name="Timer" parent="player" instance=ExtResource( 10 )]
-position = Vector2( -6287.5, -3112.5 )
-scale = Vector2( 12.5, 12.5 )
+position = Vector2( 8900, -5887.5 )
+scale = Vector2( 17, 17 )
 
+[node name="HPBar" parent="player" instance=ExtResource( 11 )]
+margin_left = -11862.5
+margin_top = -6125.0
+margin_right = -11466.5
+margin_bottom = -6072.0
+rect_scale = Vector2( 25, 18 )
+
+[node name="CoinDisplay" parent="player" instance=ExtResource( 12 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = -11887.5
+margin_top = -5137.5
+margin_right = -11491.5
+margin_bottom = -5137.5
+rect_scale = Vector2( 30, 25 )
+
+[connection signal="coinpickedup" from="player" to="player/CoinDisplay" method="_on_player_coinpickedup"]
 [connection signal="area_entered" from="player/RopeGrab" to="player" method="_on_RopeGrab_area_entered"]
 [connection signal="timeout" from="player/RopeGrab/RopeTimer" to="player" method="_on_RopeTimer_timeout"]

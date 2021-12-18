@@ -28,6 +28,7 @@ func _ready():
 	Eventbus.connect("coinpickup",self,"_on_coinpickup")
 	Eventbus.connect("playerswingdamage", self, "_on_playerswingdamage")
 	Eventbus.connect("touchingrope", self, "_on_touching_rope")
+	Eventbus.connect("potionpickup", self, "_on_potionpickup")
 	file.open("res://save_hp.txt", File.READ_WRITE)
 	health = int(file.get_as_text())
 	file.close()
@@ -133,11 +134,11 @@ func _process(_delta):
 func _on_level1_body_entered(body):
 	get_tree().change_scene("res://Project Files/Worlds/World 1/Level 2/World 1 Level 2.tscn")
 
-
-
-
 func _on_Area2D_body_entered(body):
 	get_tree().change_scene("res://Project Files/Worlds/End World/Temp End Level.tscn")
+
+
+
 
 
 
@@ -146,7 +147,9 @@ signal health_updated(health)
 signal killed()
 func kill():
 	get_tree().change_scene("res://Project Files/Worlds/End World/Lose End Level.tscn")
-	
+
+
+# damage function
 func damage(amount):
 	if invulnerability_timer.is_stopped():
 		invulnerability_timer.start()
@@ -172,13 +175,14 @@ func _set_health(value):
 # 5 damage taken per spike
 func _on_playerspikedamage():
 	damage(5)
-
+# take 10 damage for swinging axe
 func _on_playerswingdamage():
 	damage(10)
 	
 
-onready var coins = 0 
-
+onready var coins = 0
+signal coinpickedup(coins)
+# +1 coin on coin pickup
 func _on_coinpickup():
 	var file = File.new()
 	file.open("res://save_coins.txt", File.READ_WRITE)
@@ -186,5 +190,9 @@ func _on_coinpickup():
 	coins+=1
 	file.store_string(str(coins))
 	file.close()
-	print("Coins %s " % coins)
+	emit_signal("coinpickedup", coins)
 
+
+# heal 20 on potion pickup
+func _on_potionpickup():
+	damage(-20)
