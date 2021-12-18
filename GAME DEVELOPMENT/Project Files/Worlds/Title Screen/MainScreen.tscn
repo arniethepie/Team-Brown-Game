@@ -1,0 +1,63 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Project Files/UserInterface/QuitButton/QuitButton.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Project Files/UserInterface/Title.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Project Files/UserInterface/PlayButton/PlayButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Project Files/UserInterface/AnimatedMenuBackground.tscn" type="PackedScene" id=5]
+
+[node name="MainScreen" type="Control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -956.0
+margin_top = -533.0
+margin_right = 68.0
+margin_bottom = 67.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimatedSprite" parent="." instance=ExtResource( 5 )]
+position = Vector2( 959, 530.5 )
+scale = Vector2( 3.76172, 3.39063 )
+frame = 1
+
+[node name="Title" parent="." instance=ExtResource( 2 )]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -229.0
+margin_top = -172.0
+margin_right = 43.0
+margin_bottom = -88.0
+rect_scale = Vector2( 5, 5 )
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+align = 1
+valign = 1
+uppercase = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_left = 0.653
+anchor_top = 0.668
+anchor_right = 0.653
+anchor_bottom = 0.668
+margin_left = 15.3279
+margin_top = 18.2
+margin_right = 587.328
+margin_bottom = 249.2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Play" parent="VBoxContainer" instance=ExtResource( 3 )]
+margin_right = 572.0
+margin_bottom = 113.0
+next_scene_path = "res://Project Files/Worlds/World 1/Level 1/World 1 Level 1.tscn"
+
+[node name="Quit" parent="VBoxContainer" instance=ExtResource( 1 )]
+margin_top = 117.0
+margin_right = 572.0
+margin_bottom = 231.0
