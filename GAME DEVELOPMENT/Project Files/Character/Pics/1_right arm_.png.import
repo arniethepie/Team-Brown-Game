@@ -1,0 +1,35 @@
+[remap]
+
+importer="texture"
+type="StreamTexture"
+path="res://.import/1_right arm_.png-21e8c4427bfe63f8ead0a7c5324550cc.stex"
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+source_file="res://Project Files/Character/Pics/1_right arm_.png"
+dest_files=[ "res://.import/1_right arm_.png-21e8c4427bfe63f8ead0a7c5324550cc.stex" ]
+
+[params]
+
+compress/mode=0
+compress/lossy_quality=0.7
+compress/hdr_mode=0
+compress/bptc_ldr=0
+compress/normal_map=0
+flags/repeat=0
+flags/filter=true
+flags/mipmaps=false
+flags/anisotropic=false
+flags/srgb=2
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/HDR_as_SRGB=false
+process/invert_color=false
+process/normal_map_invert_y=false
+stream=false
+size_limit=0
+detect_3d=true
+svg/scale=1.0

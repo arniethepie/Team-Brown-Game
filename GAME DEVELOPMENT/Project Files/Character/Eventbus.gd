@@ -1,0 +1,6 @@
+extends Node
+signal playerspikedamage
+signal coinpickup
+signal playerswingdamage
+signal touchingrope
+signal potionpickup

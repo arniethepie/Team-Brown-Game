@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Project Files/UserInterface/CountupTimer/Countup.gd" type="Script" id=1]
+[ext_resource path="res://Project Files/UserInterface/CountupTimer/hourglass_icon.png" type="Texture" id=4]
+
+[node name="Timer" type="Node2D"]
+
+[node name="UI" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Countup" type="Control" parent="UI"]
+margin_right = 268.0
+margin_bottom = 50.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="sec" type="RichTextLabel" parent="UI/Countup"]
+margin_left = 40.0
+margin_top = 7.0
+margin_right = 128.0
+margin_bottom = 22.0
+rect_scale = Vector2( 1.95555, 2.06073 )
+fit_content_height = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="UI/Countup"]
+
+[node name="Sprite" type="Sprite" parent="UI/Countup"]
+position = Vector2( 19.9783, 19.2971 )
+scale = Vector2( 0.320433, 0.374058 )
+texture = ExtResource( 4 )
+
+[node name="FileTimer" type="Timer" parent="UI/Countup"]
+
+[connection signal="timeout" from="UI/Countup/FileTimer" to="UI/Countup" method="_on_FileTimer_timeout"]
