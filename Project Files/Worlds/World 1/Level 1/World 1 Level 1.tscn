@@ -1,11 +1,12 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Project Files/Temporary Assets/Kennyassets/Tilesheet/tilesheet_complete.png" type="Texture" id=1]
 [ext_resource path="res://Project Files/Character/Playermodel.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Project Files/World Objects/Items/Coin/Coin.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Project Files/World Objects/Spike/Spike.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Project Files/World Objects/Swing Trap/SwingTrap.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Project Files/World Objects/SpikeTrap/SpikeTrap.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Project Files/World Objects/DoorandPressurePlate/DoorandPressureP.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Project Files/World Objects/SwingingRope/SwingingRope.tscn" type="PackedScene" id=8]
 
 [sub_resource type="ConvexPolygonShape2D" id=8]
 points = PoolVector2Array( 0, 0, 40, 0, 40, 40, 0, 40 )
@@ -94,6 +95,9 @@ tile_data = PoolIntArray( -6422646, 1, 0, -6422645, 1, 0, -6422644, 1, 0, -64226
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 
+[node name="player" parent="Player" index="0"]
+position = Vector2( 0, -42 )
+
 [node name="Area2D" type="Area2D" parent="."]
 position = Vector2( 3314, 119 )
 
@@ -130,46 +134,11 @@ position = Vector2( 2162, -263 )
 [node name="Coin7" parent="." instance=ExtResource( 3 )]
 position = Vector2( 3236, 542 )
 
-[node name="Spikes" type="Node" parent="."]
-
-[node name="Spike2" parent="Spikes" instance=ExtResource( 4 )]
-position = Vector2( 905, -55 )
-
-[node name="Spike" parent="Spikes" instance=ExtResource( 4 )]
-position = Vector2( 624, -15 )
-
-[node name="Spike10" parent="Spikes" instance=ExtResource( 4 )]
-position = Vector2( 660, -855 )
-
-[node name="Spike11" parent="Spikes" instance=ExtResource( 4 )]
-position = Vector2( 1777, -819 )
-
-[node name="Spike3" parent="Spikes" instance=ExtResource( 4 )]
-position = Vector2( 1383, -15 )
-
-[node name="Spike4" parent="Spikes" instance=ExtResource( 4 )]
-position = Vector2( 302, -1016 )
-
-[node name="Spike5" parent="Spikes" instance=ExtResource( 4 )]
-position = Vector2( 2142, -216 )
-
-[node name="Spike6" parent="Spikes" instance=ExtResource( 4 )]
-position = Vector2( 2299, -218 )
-
-[node name="Spike7" parent="Spikes" instance=ExtResource( 4 )]
-position = Vector2( 2516, -296 )
-
-[node name="Spike8" parent="Spikes" instance=ExtResource( 4 )]
-position = Vector2( 2666, -291 )
-
-[node name="Spike9" parent="Spikes" instance=ExtResource( 4 )]
-position = Vector2( 1465, -980 )
-
 [node name="SwingTrap3" parent="." instance=ExtResource( 5 )]
 position = Vector2( 995, 80 )
 
 [node name="SwingTrap" parent="." instance=ExtResource( 5 )]
-position = Vector2( 435, 355 )
+position = Vector2( 548, 4 )
 
 [node name="SwingTrap2" parent="." instance=ExtResource( 5 )]
 position = Vector2( 211, -678 )
@@ -180,30 +149,32 @@ position = Vector2( 2835, 35 )
 [node name="SwingTrap5" parent="." instance=ExtResource( 5 )]
 position = Vector2( 1462, -282 )
 
+[node name="DoorandPressure" parent="." instance=ExtResource( 7 )]
+position = Vector2( 371, 569 )
+
+[node name="Door" parent="DoorandPressure" index="0"]
+position = Vector2( 68, -308.75 )
+scale = Vector2( 0.4, 0.241 )
+
+[node name="Plate" parent="DoorandPressure" index="1"]
+position = Vector2( -53, -17 )
+
+[node name="SwingingRope2" parent="." instance=ExtResource( 8 )]
+
+[node name="Sprite" parent="SwingingRope2" index="1"]
+position = Vector2( 879, -232 )
+
+[node name="SwingingRope" parent="." instance=ExtResource( 8 )]
+
+[node name="Sprite" parent="SwingingRope" index="1"]
+position = Vector2( 223, -192 )
+
 [node name="SpikeTrap" parent="." instance=ExtResource( 6 )]
-position = Vector2( 671, 128 )
-
-[node name="SpikeTrap2" parent="." instance=ExtResource( 6 )]
-position = Vector2( 360, -111 )
-
-[node name="SpikeTrap" parent="SpikeTrap2" instance=ExtResource( 6 )]
-position = Vector2( 919, 42 )
-
-[node name="SpikeTrap2" parent="SpikeTrap2" instance=ExtResource( 6 )]
-position = Vector2( 1255, -402 )
-
-[node name="SpikeTrap" parent="SpikeTrap2/SpikeTrap2" instance=ExtResource( 6 )]
-position = Vector2( 220, -319 )
-
-[node name="SpikeTrap3" parent="." instance=ExtResource( 6 )]
-position = Vector2( 81, -192 )
-
-[node name="SpikeTrap4" parent="." instance=ExtResource( 6 )]
-position = Vector2( 2023, 6 )
-
-[node name="SpikeTrap5" parent="." instance=ExtResource( 6 )]
-position = Vector2( 3107, -232 )
+position = Vector2( 1726, -515 )
 
 [connection signal="body_entered" from="Area2D" to="Player/player" method="_on_level1_body_entered"]
 
 [editable path="Player"]
+[editable path="DoorandPressure"]
+[editable path="SwingingRope2"]
+[editable path="SwingingRope"]

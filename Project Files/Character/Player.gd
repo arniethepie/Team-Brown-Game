@@ -7,20 +7,32 @@ export var max_jumps = 2
 export var jumpstr = 1200
 export var gravity = 3000
 
-var _currentjumps = 0
-var _velocity = Vector2.ZERO
-
 export (float) var max_health = 50
+
 onready var health = max_health setget _set_health
 onready var invulnerability_timer = $InvulnTimer
 
+var _currentjumps = 0
+var _velocity = Vector2.ZERO
+
 # obstacles code
 const TYPE = "player"
-
+# some rope code
+var can_grab = true
+var rope_grabbed = false
+var rope_part = null
+var touchingrope = false
 func _ready():
+	var file = File.new()
 	Eventbus.connect("playerspikedamage",self,"_on_playerspikedamage")
 	Eventbus.connect("coinpickup",self,"_on_coinpickup")
 	Eventbus.connect("playerswingdamage", self, "_on_playerswingdamage")
+	Eventbus.connect("touchingrope", self, "_on_touching_rope")
+	file.open("res://save_hp.txt", File.READ_WRITE)
+	health = int(file.get_as_text())
+	file.close()
+
+	
 # movement
 func _physics_process(delta):
 	# left and right movement
@@ -36,12 +48,44 @@ func _physics_process(delta):
 	var is_jump_cancelled = Input.is_action_just_released("jump") and _velocity.y < 0
 	var is_idle = is_on_floor() and is_zero_approx(_velocity.x)
 	var is_moving = is_on_floor() and not is_zero_approx(_velocity.x)
-	
+	var rope_release = false
 	if is_jumping:
 		_velocity.y = -jumpstr
 	elif is_jump_cancelled:
 		_velocity.y = 0
-		
+
+	if rope_grabbed:
+		global_position = rope_part.global_position
+		if Input.is_action_just_pressed("jump"):
+			_velocity.y = -jumpstr/1.5
+			rope_grabbed = false
+			rope_part = null
+			global_position = global_position
+			$RopeGrab/RopeTimer.start()
+			rope_release = true
+			touchingrope = false
+		else:
+			return
+	
+# grabbing rope function
+
+# touching rope
+func _on_touching_rope():
+	touchingrope = true
+# if the rope is grabbed by the player and all the conditions are right
+func _on_RopeGrab_area_entered(area):
+	if can_grab and touchingrope:
+		rope_grabbed = true
+		rope_part = area
+		can_grab = false
+		global_position = global_position
+# allows the rope to be regrabbed
+func _on_RopeTimer_timeout():
+	can_grab = true
+
+
+
+
 
 # animations
 onready var _animation_move_player = $move
@@ -112,9 +156,14 @@ func damage(amount):
 
 # update health function
 func _set_health(value):
+	var file = File.new()
+	file.open("res://save_hp.txt", File.READ_WRITE)
+	health = int(file.get_as_text())
 	var prev_health = health
 	health = clamp(value, 0, max_health)
 	if health!= prev_health:
+		file.store_string(str(health))
+		file.close()
 		emit_signal("health_updated", health)
 		if health == 0:
 			kill()
@@ -131,5 +180,11 @@ func _on_playerswingdamage():
 onready var coins = 0 
 
 func _on_coinpickup():
+	var file = File.new()
+	file.open("res://save_coins.txt", File.READ_WRITE)
+	coins = int(file.get_as_text())
 	coins+=1
+	file.store_string(str(coins))
+	file.close()
 	print("Coins %s " % coins)
+
