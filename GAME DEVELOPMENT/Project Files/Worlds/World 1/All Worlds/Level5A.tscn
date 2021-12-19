@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Project Files/Temporary Assets/Kennyassets/Tilesheet/tilesheet_complete.png" type="Texture" id=1]
 [ext_resource path="res://Project Files/Temporary Assets/Kennyassets/Tilesheet/brick wall.jpeg" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Project Files/World Objects/Spike/Spike.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Project Files/World Objects/Items/Potion/potion.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Project Files/World Objects/AreaChanger.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Project Files/Audio/bgm1.wav" type="AudioStream" id=9]
 
 [sub_resource type="ConvexPolygonShape2D" id=16]
 points = PoolVector2Array( 0, 0, 80, 0, 80, 80, 0, 80 )
@@ -185,122 +186,127 @@ position = Vector2( 460, 765 )
 
 [node name="AllObjects" type="Node" parent="TileMap"]
 
-[node name="Spike2" parent="TileMap" instance=ExtResource( 6 )]
-position = Vector2( 499, -58 )
+[node name="Spike2" parent="TileMap/AllObjects" instance=ExtResource( 6 )]
+position = Vector2( 1093, 720 )
 
-[node name="Spike" parent="TileMap" instance=ExtResource( 6 )]
-position = Vector2( 380, -58 )
+[node name="Spike" parent="TileMap/AllObjects" instance=ExtResource( 6 )]
+position = Vector2( 974, 720 )
 
-[node name="coin" parent="TileMap" instance=ExtResource( 4 )]
-position = Vector2( 1455, -533 )
+[node name="coin" parent="TileMap/AllObjects" instance=ExtResource( 4 )]
+position = Vector2( 2049, 245 )
 
-[node name="coin2" parent="TileMap" instance=ExtResource( 4 )]
-position = Vector2( 1455, -572 )
+[node name="coin2" parent="TileMap/AllObjects" instance=ExtResource( 4 )]
+position = Vector2( 2049, 206 )
 
-[node name="coin3" parent="TileMap" instance=ExtResource( 4 )]
-position = Vector2( 1459, -614 )
+[node name="coin3" parent="TileMap/AllObjects" instance=ExtResource( 4 )]
+position = Vector2( 2053, 164 )
 
-[node name="coin4" parent="TileMap" instance=ExtResource( 4 )]
-position = Vector2( 1788, -571 )
+[node name="coin4" parent="TileMap/AllObjects" instance=ExtResource( 4 )]
+position = Vector2( 2382, 207 )
 
-[node name="coin5" parent="TileMap" instance=ExtResource( 4 )]
-position = Vector2( 2100, -569 )
+[node name="coin5" parent="TileMap/AllObjects" instance=ExtResource( 4 )]
+position = Vector2( 2694, 209 )
 
-[node name="coin6" parent="TileMap" instance=ExtResource( 4 )]
-position = Vector2( 2298, -570 )
+[node name="coin6" parent="TileMap/AllObjects" instance=ExtResource( 4 )]
+position = Vector2( 2892, 208 )
 
-[node name="coin7" parent="TileMap" instance=ExtResource( 4 )]
-position = Vector2( 2459, -410 )
+[node name="coin7" parent="TileMap/AllObjects" instance=ExtResource( 4 )]
+position = Vector2( 3053, 368 )
 
-[node name="coin8" parent="TileMap" instance=ExtResource( 4 )]
-position = Vector2( 2657, -690 )
+[node name="coin8" parent="TileMap/AllObjects" instance=ExtResource( 4 )]
+position = Vector2( 3251, 88 )
 
-[node name="coin9" parent="TileMap" instance=ExtResource( 4 )]
-position = Vector2( 2619, -689 )
+[node name="coin9" parent="TileMap/AllObjects" instance=ExtResource( 4 )]
+position = Vector2( 3213, 89 )
 
-[node name="coin10" parent="TileMap" instance=ExtResource( 4 )]
-position = Vector2( 2697, -687 )
+[node name="coin10" parent="TileMap/AllObjects" instance=ExtResource( 4 )]
+position = Vector2( 3291, 91 )
 
-[node name="coin11" parent="TileMap" instance=ExtResource( 4 )]
-position = Vector2( 3017, -652 )
+[node name="coin11" parent="TileMap/AllObjects" instance=ExtResource( 4 )]
+position = Vector2( 3611, 126 )
 
-[node name="coin12" parent="TileMap" instance=ExtResource( 4 )]
-position = Vector2( 3018, -690 )
+[node name="coin12" parent="TileMap/AllObjects" instance=ExtResource( 4 )]
+position = Vector2( 3612, 88 )
 
-[node name="coin13" parent="TileMap" instance=ExtResource( 4 )]
-position = Vector2( 3019, -729 )
+[node name="coin13" parent="TileMap/AllObjects" instance=ExtResource( 4 )]
+position = Vector2( 3613, 49 )
 
-[node name="coin14" parent="TileMap" instance=ExtResource( 4 )]
-position = Vector2( 3219, -727 )
+[node name="coin14" parent="TileMap/AllObjects" instance=ExtResource( 4 )]
+position = Vector2( 3813, 51 )
 
-[node name="potion" parent="TileMap" instance=ExtResource( 7 )]
-position = Vector2( 3578, -261 )
+[node name="potion" parent="TileMap/AllObjects" instance=ExtResource( 7 )]
+position = Vector2( 4172, 517 )
 
-[node name="Spike3" parent="TileMap" instance=ExtResource( 6 )]
-position = Vector2( 1217, -20 )
+[node name="Spike10" parent="TileMap/AllObjects" instance=ExtResource( 6 )]
+position = Vector2( 2774, 717 )
 
-[node name="Spike2" parent="TileMap/Spike3" instance=ExtResource( 6 )]
-position = Vector2( 963, -41 )
+[node name="Spike3" parent="TileMap/AllObjects" instance=ExtResource( 6 )]
+position = Vector2( 1811, 758 )
 
-[node name="Spike4" parent="TileMap" instance=ExtResource( 6 )]
-position = Vector2( 1299, 20 )
+[node name="Spike4" parent="TileMap/AllObjects" instance=ExtResource( 6 )]
+position = Vector2( 1893, 798 )
 
-[node name="Spike5" parent="TileMap" instance=ExtResource( 6 )]
-position = Vector2( 1376, 101 )
+[node name="Spike5" parent="TileMap/AllObjects" instance=ExtResource( 6 )]
+position = Vector2( 1970, 879 )
 
-[node name="Spike6" parent="TileMap" instance=ExtResource( 6 )]
-position = Vector2( 1420, 140 )
+[node name="Spike6" parent="TileMap/AllObjects" instance=ExtResource( 6 )]
+position = Vector2( 2014, 918 )
 
-[node name="Spike7" parent="TileMap" instance=ExtResource( 6 )]
-position = Vector2( 1460, 221 )
+[node name="Spike7" parent="TileMap/AllObjects" instance=ExtResource( 6 )]
+position = Vector2( 2054, 999 )
 
-[node name="Spike8" parent="TileMap" instance=ExtResource( 6 )]
-position = Vector2( 1177, -60 )
+[node name="Spike8" parent="TileMap/AllObjects" instance=ExtResource( 6 )]
+position = Vector2( 1771, 718 )
 
-[node name="Spike9" parent="TileMap" instance=ExtResource( 6 )]
-position = Vector2( 2418, 179 )
+[node name="Spike9" parent="TileMap/AllObjects" instance=ExtResource( 6 )]
+position = Vector2( 3012, 957 )
 
-[node name="Spike12" parent="TileMap" instance=ExtResource( 6 )]
-position = Vector2( 2341, 99 )
+[node name="Spike12" parent="TileMap/AllObjects" instance=ExtResource( 6 )]
+position = Vector2( 2935, 877 )
 
-[node name="Spike13" parent="TileMap" instance=ExtResource( 6 )]
-position = Vector2( 2259, 21 )
+[node name="Spike13" parent="TileMap/AllObjects" instance=ExtResource( 6 )]
+position = Vector2( 2853, 799 )
 
-[node name="Spike" parent="." instance=ExtResource( 6 )]
-position = Vector2( 1500, 910 )
+[node name="Spike11" parent="TileMap/AllObjects" instance=ExtResource( 6 )]
+position = Vector2( 734, 801 )
 
-[node name="Spike2" parent="." instance=ExtResource( 6 )]
-position = Vector2( 1389, 908 )
+[node name="Spike14" parent="TileMap/AllObjects" instance=ExtResource( 6 )]
+position = Vector2( 623, 799 )
 
-[node name="Spike3" parent="." instance=ExtResource( 6 )]
-position = Vector2( 1969, 830 )
+[node name="Spike15" parent="TileMap/AllObjects" instance=ExtResource( 6 )]
+position = Vector2( 1203, 721 )
 
-[node name="Spike4" parent="." instance=ExtResource( 6 )]
-position = Vector2( 2225, 749 )
+[node name="Spike16" parent="TileMap/AllObjects" instance=ExtResource( 6 )]
+position = Vector2( 1459, 640 )
 
-[node name="Spike5" parent="." instance=ExtResource( 6 )]
-position = Vector2( 2335, 749 )
+[node name="Spike17" parent="TileMap/AllObjects" instance=ExtResource( 6 )]
+position = Vector2( 1569, 640 )
 
-[node name="Spike6" parent="." instance=ExtResource( 6 )]
-position = Vector2( 2446, 752 )
+[node name="Spike18" parent="TileMap/AllObjects" instance=ExtResource( 6 )]
+position = Vector2( 1680, 643 )
 
-[node name="Spike7" parent="." instance=ExtResource( 6 )]
-position = Vector2( 4657, 1029 )
+[node name="Spike19" parent="TileMap/AllObjects" instance=ExtResource( 6 )]
+position = Vector2( 3891, 920 )
 
-[node name="Spike8" parent="." instance=ExtResource( 6 )]
-position = Vector2( 4579, 951 )
+[node name="Spike20" parent="TileMap/AllObjects" instance=ExtResource( 6 )]
+position = Vector2( 3813, 842 )
 
-[node name="Spike9" parent="." instance=ExtResource( 6 )]
-position = Vector2( 4539, 908 )
+[node name="Spike21" parent="TileMap/AllObjects" instance=ExtResource( 6 )]
+position = Vector2( 3773, 799 )
 
-[node name="Spike10" parent="." instance=ExtResource( 6 )]
-position = Vector2( 4460, 829 )
+[node name="Spike22" parent="TileMap/AllObjects" instance=ExtResource( 6 )]
+position = Vector2( 3694, 720 )
 
-[node name="Spike11" parent="." instance=ExtResource( 6 )]
-position = Vector2( 4425, 788 )
+[node name="Spike23" parent="TileMap/AllObjects" instance=ExtResource( 6 )]
+position = Vector2( 3659, 679 )
 
 [node name="Area2D" parent="." instance=ExtResource( 8 )]
 position = Vector2( 5333, 391 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+volume_db = -20.0
+autoplay = true
 
 [editable path="TileMap/Player"]
 [editable path="Area2D"]

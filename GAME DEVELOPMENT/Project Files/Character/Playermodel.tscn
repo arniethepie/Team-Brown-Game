@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://Project Files/Character/Player.gd" type="Script" id=1]
 [ext_resource path="res://Project Files/Character/Pics/1_right arm_.png" type="Texture" id=2]
@@ -12,6 +12,11 @@
 [ext_resource path="res://Project Files/UserInterface/CountupTimer/Countup.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Project Files/UserInterface/HPBar/HPBar.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Project Files/UserInterface/CoinCounter/CoinCounter.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Project Files/Audio/run.mp3" type="AudioStream" id=13]
+[ext_resource path="res://Project Files/Audio/hurt1.wav" type="AudioStream" id=14]
+[ext_resource path="res://Project Files/Audio/coins.wav" type="AudioStream" id=15]
+[ext_resource path="res://Project Files/Audio/junp.wav" type="AudioStream" id=16]
+[ext_resource path="res://Project Files/Audio/hurt2.wav" type="AudioStream" id=17]
 
 [sub_resource type="RectangleShape2D" id=14]
 extents = Vector2( 16, 38.875 )
@@ -1404,6 +1409,26 @@ margin_top = -5362.5
 margin_right = -11875.0
 margin_bottom = -5362.5
 rect_scale = Vector2( 25, 25 )
+
+[node name="Runsound" type="AudioStreamPlayer" parent="player"]
+stream = ExtResource( 13 )
+volume_db = -20.0
+
+[node name="Jumpsound" type="AudioStreamPlayer" parent="player"]
+stream = ExtResource( 16 )
+volume_db = -30.0
+
+[node name="Coinsound" type="AudioStreamPlayer" parent="player"]
+stream = ExtResource( 15 )
+volume_db = -30.0
+
+[node name="Hurt1sound" type="AudioStreamPlayer" parent="player"]
+stream = ExtResource( 14 )
+volume_db = -30.0
+
+[node name="Hurt2sound" type="AudioStreamPlayer" parent="player"]
+stream = ExtResource( 17 )
+volume_db = -30.0
 
 [connection signal="coinpickedup" from="player" to="player/CoinDisplay2" method="_on_player_coinpickedup"]
 [connection signal="health_updated" from="player" to="player/HPBar" method="_on_player_health_updated"]

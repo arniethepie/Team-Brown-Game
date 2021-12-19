@@ -93,14 +93,19 @@ func _on_RopeTimer_timeout():
 
 
 
-# animations
+# animations and sounds
+# audio from yespik.com copyright free
 onready var _animation_move_player = $move
 onready var _animation_move2_player = $move2
 onready var _animation_idle_player = $idle
 onready var _animation_jump_player = $jump
 onready var _animation_run_player = $run
-
-# animation function
+onready var Run_sound = $Runsound
+onready var Jump_sound = $Jumpsound
+onready var Coin_sound = $Coinsound
+onready var Hurt1_sound = $Hurt1sound
+onready var Hurt2_sound = $Hurt2sound
+# animation and sound function
 func _process(_delta):
 	
 	var axisX = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
@@ -123,13 +128,14 @@ func _process(_delta):
 			
 	else:
 		_animation_move_player.stop()	#stop move animation
+		Run_sound.play()
 		_animation_idle_player.play("idle")		#play idle animation
 		
 	if Input.is_action_just_pressed("jump"):
 		# _animation_idle_player.stop()
 		_animation_move_player.stop()	#stop move animation
 		_animation_jump_player.play("jump")		#play jump animation
-		
+		Jump_sound.play()
 
 
 
@@ -220,11 +226,11 @@ func _set_health(value):
 # 2.5 damage taken per spike
 func _on_playerspikedamage():
 	damage(2.5)
-	
+	Hurt1_sound.play()
 # take 5 damage for swinging axe
 func _on_playerswingdamage():
 	damage(5)
-	
+	Hurt2_sound.play()
 
 
 onready var coins = 0
@@ -238,8 +244,9 @@ func _on_coinpickup():
 	file.store_string(str(coins))
 	file.close()
 	emit_signal("coinpickedup", coins)
-
+	Coin_sound.play()
 
 # heal 20 on potion pickup
 func _on_potionpickup():
 	damage(-20)
+	Coin_sound.play()
