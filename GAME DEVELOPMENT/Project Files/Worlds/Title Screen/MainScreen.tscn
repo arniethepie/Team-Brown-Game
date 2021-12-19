@@ -21,7 +21,7 @@ __meta__ = {
 [node name="AnimatedSprite" parent="." instance=ExtResource( 5 )]
 position = Vector2( 959, 530.5 )
 scale = Vector2( 3.76172, 3.39063 )
-frame = 11
+frame = 6
 
 [node name="Title" parent="." instance=ExtResource( 2 )]
 anchor_left = 0.5
@@ -55,7 +55,7 @@ __meta__ = {
 [node name="Play" parent="VBoxContainer" instance=ExtResource( 3 )]
 margin_right = 572.0
 margin_bottom = 113.0
-next_scene_path = "res://Project Files/Worlds/World 1/Level 1/World 1 Level 1.tscn"
+next_scene_path = "res://Project Files/Worlds/World 1/Level 1/Level1A.tscn"
 
 [node name="Quit" parent="VBoxContainer" instance=ExtResource( 1 )]
 margin_top = 117.0

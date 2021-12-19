@@ -23,13 +23,17 @@ var can_grab = true
 var rope_grabbed = false
 var rope_part = null
 var touchingrope = false
+var rng = RandomNumberGenerator.new()
 func _ready():
+	# generate random seeds
+	rng.randomize()
 	var file = File.new()
 	Eventbus.connect("playerspikedamage",self,"_on_playerspikedamage")
 	Eventbus.connect("coinpickup",self,"_on_coinpickup")
 	Eventbus.connect("playerswingdamage", self, "_on_playerswingdamage")
 	Eventbus.connect("touchingrope", self, "_on_touching_rope")
 	Eventbus.connect("potionpickup", self, "_on_potionpickup")
+	Eventbus.connect("levelchange",self, "_on_level_change")
 	file.open("res://save_hp.txt", File.READ_WRITE)
 	health = int(file.get_as_text())
 	file.close()
@@ -132,19 +136,37 @@ func _process(_delta):
 
 
 
-# level changing
-func _on_level1_body_entered(body):
-	get_tree().change_scene("res://Project Files/Worlds/World 1/Level 2/World 1 Level 2.tscn")
 
-
-func _on_Area2D_body_entered(body):
-	get_tree().change_scene("res://Project Files/Worlds/End World/Temp End Level.tscn")
 	
-
-
-
-
-
+# random scene changer
+func randchangescenes():
+	var sceneslist
+	var scenes = []
+	var file = File.new()
+	
+	file.open("res://save_scenes.txt", File.READ_WRITE)
+	sceneslist = file.get_var()
+	var randomscenenum = rng.randi_range(1,len(sceneslist)-1)
+#	var randomscenenum = (randi()%(len(sceneslist)+1) - 1)
+	# counts how many levels we have gone through
+	if sceneslist[0] == 0:
+		file.close()
+		return "res://Project Files/Worlds/End World/Temp End Level.tscn"
+	else:
+		file.close()
+		file.open("res://save_scenes.txt", File.WRITE)
+		sceneslist[0] -= 1
+		var nextscene = sceneslist[randomscenenum]
+		sceneslist.remove(randomscenenum)
+		file.store_var(sceneslist)
+		file.close()
+		return nextscene
+		
+		
+		
+# level changing
+func _on_level_change():
+	get_tree().change_scene(randchangescenes())
 
 
 signal health_updated(health)
@@ -156,6 +178,10 @@ func kill():
 
 # damage function
 func damage(amount):
+	# if potion is taken, ignore invuln timer
+	
+	if amount<0:
+		_set_health(health-amount)
 	if invulnerability_timer.is_stopped():
 		var file = File.new()
 		if amount > 0:
@@ -165,8 +191,7 @@ func damage(amount):
 			file.close()
 			invulnerability_timer.start()
 			_set_health(health-amount)
-		else:
-			_set_health(health-amount)
+
 	#print("HP: %s" % health)
 
 

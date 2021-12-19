@@ -4,3 +4,4 @@ signal coinpickup
 signal playerswingdamage
 signal touchingrope
 signal potionpickup
+signal levelchange

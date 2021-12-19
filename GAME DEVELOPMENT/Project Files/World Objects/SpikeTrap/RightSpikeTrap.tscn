@@ -4,7 +4,7 @@
 [ext_resource path="res://Project Files/World Objects/SpikeTrap/RightSpikeTrap.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 46.5, 22 )
+extents = Vector2( 44, 22 )
 
 [sub_resource type="Animation" id=2]
 length = 0.001
@@ -67,7 +67,7 @@ position = Vector2( -6, -430 )
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 6.5, 408 )
+position = Vector2( 6.5, 407 )
 rotation = 1.5708
 shape = SubResource( 1 )
 disabled = true
