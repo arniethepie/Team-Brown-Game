@@ -21,7 +21,7 @@ __meta__ = {
 [node name="AnimatedSprite" parent="." instance=ExtResource( 5 )]
 position = Vector2( 959, 530.5 )
 scale = Vector2( 3.76172, 3.39063 )
-frame = 1
+frame = 11
 
 [node name="Title" parent="." instance=ExtResource( 2 )]
 anchor_left = 0.5

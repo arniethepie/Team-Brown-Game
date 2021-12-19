@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "",
 "class": "GitAPI",
 "language": "NativeScript",
-"path": "res://addons/godot-git-plugin/git_api.gdns"
+"path": "res://Project Files/Worlds/World 1/All Worlds/addons/godot-git-plugin/git_api.gdns"
 }, {
 "base": "KinematicBody2D",
 "class": "defaultmovement",
@@ -42,7 +42,7 @@ window/size/resizable=false
 
 [gdnative]
 
-singletons=[ "res://addons/godot-git-plugin/git_api.gdnlib" ]
+singletons=[ "res://Project Files/Worlds/World 1/All Worlds/addons/godot-git-plugin/git_api.gdnlib" ]
 
 [input]
 
