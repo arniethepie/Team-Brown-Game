@@ -37,6 +37,7 @@ func _ready():
 	file.open("res://save_hp.txt", File.READ_WRITE)
 	health = int(file.get_as_text())
 	file.close()
+	invuln_animation.play("Rest")
 
 	
 # movement
@@ -100,6 +101,7 @@ onready var _animation_move2_player = $move2
 onready var _animation_idle_player = $idle
 onready var _animation_jump_player = $jump
 onready var _animation_run_player = $run
+onready var invuln_animation = $InvulnAnimation
 onready var Run_sound = $Runsound
 onready var Jump_sound = $Jumpsound
 onready var Coin_sound = $Coinsound
@@ -185,9 +187,9 @@ func kill():
 # damage function
 func damage(amount):
 	# if potion is taken, ignore invuln timer
-	
 	if amount<0:
 		_set_health(health-amount)
+		invuln_animation.play("regen")
 	if invulnerability_timer.is_stopped():
 		var file = File.new()
 		if amount > 0:
@@ -197,6 +199,9 @@ func damage(amount):
 			file.close()
 			invulnerability_timer.start()
 			_set_health(health-amount)
+			Hurt1_sound.play()
+			invuln_animation.play("damage")
+			invuln_animation.queue("flash")
 
 	#print("HP: %s" % health)
 
@@ -222,15 +227,16 @@ func _set_health(value):
 
 
 
+func _on_InvulnTimer_timeout():
+	invuln_animation.play("Rest")
 
 # 2.5 damage taken per spike
 func _on_playerspikedamage():
 	damage(2.5)
-	Hurt1_sound.play()
+	
 # take 5 damage for swinging axe
 func _on_playerswingdamage():
 	damage(5)
-	Hurt2_sound.play()
 
 
 onready var coins = 0
@@ -250,3 +256,4 @@ func _on_coinpickup():
 func _on_potionpickup():
 	damage(-20)
 	Coin_sound.play()
+

@@ -438,6 +438,7 @@ position = Vector2( 111, 180 )
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 16 )
 volume_db = -20.0
+autoplay = true
 
 [editable path="TileMap/Player"]
 [editable path="TileMap/AllObjects/DoorandPressure"]

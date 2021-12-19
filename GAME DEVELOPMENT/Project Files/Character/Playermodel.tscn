@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://Project Files/Character/Player.gd" type="Script" id=1]
 [ext_resource path="res://Project Files/Character/Pics/1_right arm_.png" type="Texture" id=2]
@@ -1262,6 +1262,109 @@ tracks/11/keys = {
 "values": [ 37.8418, 37.8418, 37.8418 ]
 }
 
+[sub_resource type="Animation" id=15]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Knight:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Knight:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=16]
+resource_name = "Rest"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Knight:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Knight:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=17]
+resource_name = "damage"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Knight:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=18]
+resource_name = "flash"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Knight:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true ]
+}
+
+[sub_resource type="Animation" id=19]
+resource_name = "regen"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Knight:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0, 1, 0.133333, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
 [sub_resource type="CircleShape2D" id=13]
 radius = 107.529
 
@@ -1378,6 +1481,13 @@ anims/move2 = SubResource( 10 )
 anims/RESET = SubResource( 11 )
 anims/run = SubResource( 12 )
 
+[node name="InvulnAnimation" type="AnimationPlayer" parent="player"]
+anims/RESET = SubResource( 15 )
+anims/Rest = SubResource( 16 )
+anims/damage = SubResource( 17 )
+anims/flash = SubResource( 18 )
+anims/regen = SubResource( 19 )
+
 [node name="InvulnTimer" type="Timer" parent="player"]
 wait_time = 0.8
 one_shot = true
@@ -1432,5 +1542,6 @@ volume_db = -30.0
 
 [connection signal="coinpickedup" from="player" to="player/CoinDisplay2" method="_on_player_coinpickedup"]
 [connection signal="health_updated" from="player" to="player/HPBar" method="_on_player_health_updated"]
+[connection signal="timeout" from="player/InvulnTimer" to="player" method="_on_InvulnTimer_timeout"]
 [connection signal="area_entered" from="player/RopeGrab" to="player" method="_on_RopeGrab_area_entered"]
 [connection signal="timeout" from="player/RopeGrab/RopeTimer" to="player" method="_on_RopeTimer_timeout"]

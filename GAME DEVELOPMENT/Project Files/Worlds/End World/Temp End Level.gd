@@ -3,7 +3,7 @@ extends Node2D
 
 
 func _ready():
-
+# displays all stats
 	var file = File.new()
 	file.open("res://save_game_time.txt", File.READ_WRITE)
 	$Timetaken.set_text("Time taken: " + file.get_as_text() +"s")
@@ -13,7 +13,8 @@ func _ready():
 	file.open("res://save_totaldmg.txt", File.READ_WRITE)
 	$TotalDamageTaken.set_text("Total Damage Taken: " + file.get_as_text())
 	
-	file.open("res://save_scenes.txt", File.READ_WRITE)
-	$TotalDamageTaken.set_text("Total Damage Taken: " + str(4-(file.get_var()[0])))
+	# not working 
+	# file.open("res://save_scenes.txt", File.READ)
+	# $TotalDamageTaken.set_text("Total Damage Taken: " + str(4-(file.get_var()[0])))
 	
 	file.close()
