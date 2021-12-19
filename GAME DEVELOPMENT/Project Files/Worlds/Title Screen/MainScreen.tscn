@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Project Files/UserInterface/QuitButton/QuitButton.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Project Files/UserInterface/Title.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Project Files/UserInterface/PlayButton/PlayButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Project Files/Audio/bgm1.wav" type="AudioStream" id=4]
 [ext_resource path="res://Project Files/UserInterface/AnimatedMenuBackground.tscn" type="PackedScene" id=5]
 
 [node name="MainScreen" type="Control"]
@@ -21,7 +22,7 @@ __meta__ = {
 [node name="AnimatedSprite" parent="." instance=ExtResource( 5 )]
 position = Vector2( 959, 530.5 )
 scale = Vector2( 3.76172, 3.39063 )
-frame = 1
+frame = 12
 
 [node name="Title" parent="." instance=ExtResource( 2 )]
 anchor_left = 0.5
@@ -55,9 +56,14 @@ __meta__ = {
 [node name="Play" parent="VBoxContainer" instance=ExtResource( 3 )]
 margin_right = 572.0
 margin_bottom = 113.0
-next_scene_path = "res://Project Files/Worlds/World 1/Level 1/World 1 Level 1.tscn"
+next_scene_path = "res://Project Files/Worlds/World 1/Level 1/Level1A.tscn"
 
 [node name="Quit" parent="VBoxContainer" instance=ExtResource( 1 )]
 margin_top = 117.0
 margin_right = 572.0
 margin_bottom = 231.0
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+volume_db = -15.0
+autoplay = true

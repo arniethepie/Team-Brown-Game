@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Project Files/World Objects/AreaChanger.gd" type="Script" id=1]
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 85, 173 )
+
+[node name="Area2D" type="Area2D"]
+position = Vector2( 3314, 119 )
+script = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 3, 1.5 )
+shape = SubResource( 5 )
+
+[connection signal="body_entered" from="." to="." method="_on_Area2D_body_entered"]

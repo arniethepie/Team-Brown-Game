@@ -2,7 +2,6 @@
 
 [ext_resource path="res://Project Files/UserInterface/PlayButton/PlayButton.gd" type="Script" id=1]
 
-
 [node name="Button" type="Button"]
 margin_right = 208.0
 margin_bottom = 34.0

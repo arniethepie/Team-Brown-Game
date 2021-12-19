@@ -23,16 +23,21 @@ var can_grab = true
 var rope_grabbed = false
 var rope_part = null
 var touchingrope = false
+var rng = RandomNumberGenerator.new()
 func _ready():
+	# generate random seeds
+	rng.randomize()
 	var file = File.new()
 	Eventbus.connect("playerspikedamage",self,"_on_playerspikedamage")
 	Eventbus.connect("coinpickup",self,"_on_coinpickup")
 	Eventbus.connect("playerswingdamage", self, "_on_playerswingdamage")
 	Eventbus.connect("touchingrope", self, "_on_touching_rope")
 	Eventbus.connect("potionpickup", self, "_on_potionpickup")
+	Eventbus.connect("levelchange",self, "_on_level_change")
 	file.open("res://save_hp.txt", File.READ_WRITE)
 	health = int(file.get_as_text())
 	file.close()
+	invuln_animation.play("Rest")
 
 	
 # movement
@@ -89,14 +94,20 @@ func _on_RopeTimer_timeout():
 
 
 
-# animations
+# animations and sounds
+# audio from yespik.com copyright free
 onready var _animation_move_player = $move
 onready var _animation_move2_player = $move2
 onready var _animation_idle_player = $idle
 onready var _animation_jump_player = $jump
 onready var _animation_run_player = $run
-
-# animation function
+onready var invuln_animation = $InvulnAnimation
+onready var Run_sound = $Runsound
+onready var Jump_sound = $Jumpsound
+onready var Coin_sound = $Coinsound
+onready var Hurt1_sound = $Hurt1sound
+onready var Hurt2_sound = $Hurt2sound
+# animation and sound function
 func _process(_delta):
 	
 	var axisX = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
@@ -119,32 +130,51 @@ func _process(_delta):
 			
 	else:
 		_animation_move_player.stop()	#stop move animation
+		Run_sound.play()
 		_animation_idle_player.play("idle")		#play idle animation
 		
 	if Input.is_action_just_pressed("jump"):
 		# _animation_idle_player.stop()
 		_animation_move_player.stop()	#stop move animation
 		_animation_jump_player.play("jump")		#play jump animation
-		
+		Jump_sound.play()
 
 
 
 
 
 
-# level changing
-func _on_level1_body_entered(body):
-	get_tree().change_scene("res://Project Files/Worlds/World 1/Level 2/World 1 Level 2.tscn")
 
-
-func _on_Area2D_body_entered(body):
-	get_tree().change_scene("res://Project Files/Worlds/End World/Temp End Level.tscn")
 	
-
-
-
-
-
+# random scene changer
+func randchangescenes():
+	var sceneslist
+	var scenes = []
+	var file = File.new()
+	
+	file.open("res://save_scenes.txt", File.READ_WRITE)
+	sceneslist = file.get_var()
+	var randomscenenum = rng.randi_range(1,len(sceneslist)-1)
+#	var randomscenenum = (randi()%(len(sceneslist)+1) - 1)
+	# counts how many levels we have gone through
+	if sceneslist[0] == 0:
+		file.close()
+		return "res://Project Files/Worlds/End World/Temp End Level.tscn"
+	else:
+		file.close()
+		file.open("res://save_scenes.txt", File.WRITE)
+		sceneslist[0] -= 1
+		var nextscene = sceneslist[randomscenenum]
+		sceneslist.remove(randomscenenum)
+		file.store_var(sceneslist)
+		file.close()
+		return nextscene
+		
+		
+		
+# level changing
+func _on_level_change():
+	get_tree().change_scene(randchangescenes())
 
 
 signal health_updated(health)
@@ -156,6 +186,10 @@ func kill():
 
 # damage function
 func damage(amount):
+	# if potion is taken, ignore invuln timer
+	if amount<0:
+		_set_health(health-amount)
+		invuln_animation.play("regen")
 	if invulnerability_timer.is_stopped():
 		var file = File.new()
 		if amount > 0:
@@ -165,8 +199,10 @@ func damage(amount):
 			file.close()
 			invulnerability_timer.start()
 			_set_health(health-amount)
-		else:
-			_set_health(health-amount)
+			Hurt1_sound.play()
+			invuln_animation.play("damage")
+			invuln_animation.queue("flash")
+
 	#print("HP: %s" % health)
 
 
@@ -191,6 +227,8 @@ func _set_health(value):
 
 
 
+func _on_InvulnTimer_timeout():
+	invuln_animation.play("Rest")
 
 # 2.5 damage taken per spike
 func _on_playerspikedamage():
@@ -199,7 +237,6 @@ func _on_playerspikedamage():
 # take 5 damage for swinging axe
 func _on_playerswingdamage():
 	damage(5)
-	
 
 
 onready var coins = 0
@@ -213,8 +250,10 @@ func _on_coinpickup():
 	file.store_string(str(coins))
 	file.close()
 	emit_signal("coinpickedup", coins)
-
+	Coin_sound.play()
 
 # heal 20 on potion pickup
 func _on_potionpickup():
 	damage(-20)
+	Coin_sound.play()
+
